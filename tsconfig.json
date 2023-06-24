@@ -4,7 +4,9 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "jsx": "react-native",
-    "lib": ["es6"],
+    "lib": [
+      "es6"
+    ],
     "moduleResolution": "node",
     "noEmit": true,
     "strict": true,
@@ -14,6 +16,8 @@
     "node_modules",
     "babel.config.js",
     "metro.config.js",
-    ".eslintrc.js"
-  ]
+    ".eslintrc.js",
+    "*.raw.js"
+  ],
+  "extends": "expo/tsconfig.base"
 }

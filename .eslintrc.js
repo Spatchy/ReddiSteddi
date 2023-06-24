@@ -10,21 +10,31 @@ module.exports = {
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
-
-  ],
-  "ignorePatterns": [
-    ".eslintrc.js",
-    "babel.config.js"
   ],
   "overrides": [
     {
+      "files": [
+        ".eslintrc.js",
+        "babel.config.js"
+      ],
       "env": {
         "node": true
       },
-      "files": [
-        ".eslintrc.{js,cjs}"
-      ],
       "parserOptions": {
+        "project": null,
+        "sourceType": "script"
+      }
+    },
+    {
+      "files": [
+        "*.raw.js"
+      ],
+      "env": {
+        "node": false,
+        "web": true
+      },
+      "parserOptions": {
+        "project": null,
         "sourceType": "script"
       }
     }
