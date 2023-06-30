@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "npm run copyToBuild && cd .build_scripts && node transpileStrings && cd .. && cd build && npm install && expo start",
+    "copyToBuild": "mkdir build && npm run copyToBuildNix || npm run copyToBuildWin",
+    "copyToBuildNix": "rsync -a --exclude='build' --exclude='node_modules' --exclude='.build_scripts' ./ build/",
+    "copyToBuildWin": "robocopy .\\ build /E /XD build /XD node_modules /XD .build_scripts || (if %errorlevel% lss 8 exit 0 else exit %errorlevel%)",
     "lint": "eslint .",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -24,6 +27,7 @@
     "eslint": "^8.43.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "js-string-escape": "^1.0.1",
     "prettier": "^2.8.8",
     "typescript": "^5.1.3"
   },

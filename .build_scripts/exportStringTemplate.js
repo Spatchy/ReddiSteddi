@@ -1,0 +1,1 @@
+export default "{{{STRINGIFIED_FILE_CONTENT}}}"

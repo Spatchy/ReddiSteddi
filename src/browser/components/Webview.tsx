@@ -1,7 +1,7 @@
 import * as React from "react"
 import { WebView } from "react-native-webview"
 import { StyleSheet } from "react-native"
-import ReddiSteddiCore from "../../plugins/ReddiSteddiCore.raw.js"
+import ReddiSteddiCore from "../../webPlugins/ReddiSteddiCore.raw.js"
 
 export default function Webview() {
   return (
