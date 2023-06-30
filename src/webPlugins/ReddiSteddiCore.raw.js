@@ -1,1 +1,1 @@
-alert("test successful")
+alert(window.location)
