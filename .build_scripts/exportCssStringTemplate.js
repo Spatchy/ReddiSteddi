@@ -1,0 +1,1 @@
+export default "document.head.insertAdjacentHTML(\"beforeend\", `<style>{{{STRINGIFIED_FILE_CONTENT}}}</style>`)\r\nwindow.ReactNativeWebView.postMessage(\"INJECTION_FINISHED_LOADING\")"
