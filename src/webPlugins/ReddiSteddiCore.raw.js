@@ -1,1 +1,1 @@
-alert(window.location)
+document.querySelector("body").classList.remove("scroll-disabled")
