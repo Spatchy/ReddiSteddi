@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "npm run copyToBuild && cd .build_scripts && node transpileStrings && cd .. && cd build && npm install && expo start",
+    "start": "npm run copyToBuild && cd .build_scripts && node transpileStrings && cd .. && cd build && npm install && expo start --clear",
     "copyToBuild": "mkdir build && npm run copyToBuildNix || npm run copyToBuildWin",
     "copyToBuildNix": "rsync -a --exclude='build' --exclude='node_modules' --exclude='.build_scripts' ./ build/",
     "copyToBuildWin": "robocopy .\\ build /E /XD build /XD node_modules /XD .build_scripts || (if %errorlevel% lss 8 exit 0 else exit %errorlevel%)",
@@ -17,6 +17,7 @@
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
     "react-native": "0.71.8",
+    "react-native-svg": "13.4.0",
     "react-native-webview": "11.26.0"
   },
   "devDependencies": {
