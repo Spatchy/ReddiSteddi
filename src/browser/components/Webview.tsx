@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react"
-import { WebView, WebViewMessageEvent } from "react-native-webview"
+import { WebView, WebViewMessageEvent, WebViewNavigation } from "react-native-webview"
 import { StyleSheet, View } from "react-native"
+
+import { handleNavigation } from "../urlHandler"
+
 import ReddiSteddiCore from "../../webPlugins/ReddiSteddiCore.raw.js"
 import CoreStyles from "../../webPlugins/CoreStyles.raw.css"
 import LoadingAnimation from "../../LoadingSpinner/components/LoadingAnimation"
@@ -8,7 +11,7 @@ import LoadingAnimation from "../../LoadingSpinner/components/LoadingAnimation"
 export default function Webview() {
   const mainWebView = useRef<WebView>(null);
   const [loadedPluginsCounter, setLoadedPluginsCounter] = useState<number>(0)
-  const [isPluginLoadingComplete, setIsPLuginLoadingComplete] = useState<boolean>(false)
+  const [isPluginLoadingComplete, setIsPluginLoadingComplete] = useState<boolean>(false)
 
   const debugging = `
   const consoleLog = (type, log) => window.ReactNativeWebView.postMessage(JSON.stringify({'type': 'Console', 'data': {'type': type, 'log': log}}));
@@ -66,7 +69,9 @@ export default function Webview() {
 
   useEffect(() => {
     if (loadedPluginsCounter == toInject.length) {
-      setIsPLuginLoadingComplete(true)
+      setIsPluginLoadingComplete(true)
+    } else {
+      setIsPluginLoadingComplete(false)
     }
   }, [loadedPluginsCounter])
 
@@ -81,8 +86,19 @@ export default function Webview() {
           ref={mainWebView}
           style={styles.container}
           source={{ uri: "https://reddit.com" }}
-          onLoad={onLoad}
           onMessage={onMessage}
+          onLoad={onLoad}
+          onNavigationStateChange={
+            (event : WebViewNavigation) => {
+              handleNavigation(
+                mainWebView,
+                event.url,
+                () => {
+                  setLoadedPluginsCounter(0)
+                }
+              )
+            }
+          }
         />
       </View>
     </>
