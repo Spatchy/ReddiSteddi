@@ -5,8 +5,8 @@
   "scripts": {
     "start": "npm run copyToBuild && cd .build_scripts && node transpileStrings && cd .. && cd build && npm install && expo start --clear",
     "copyToBuild": "mkdir build && npm run copyToBuildNix || npm run copyToBuildWin",
-    "copyToBuildNix": "rsync -a --exclude='build' --exclude='node_modules' --exclude='.build_scripts' ./ build/",
-    "copyToBuildWin": "robocopy .\\ build /E /XD build /XD node_modules /XD .build_scripts || (if %errorlevel% lss 8 exit 0 else exit %errorlevel%)",
+    "copyToBuildNix": "rsync -a --exclude='build' --exclude='node_modules' --exclude='.build_scripts' --exclude='.git' ./ build/",
+    "copyToBuildWin": "robocopy .\\ build /E /XD build /XD node_modules /XD .build_scripts /XD .git || (if %errorlevel% lss 8 exit 0 else exit %errorlevel%)",
     "lint": "eslint .",
     "android": "expo start --android",
     "ios": "expo start --ios",
