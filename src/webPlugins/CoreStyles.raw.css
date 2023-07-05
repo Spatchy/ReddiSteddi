@@ -10,3 +10,81 @@ body {
   overflow: scroll !important;
   pointer-events: auto !important;
 }
+
+.PostFooter.m-redesign .PostFooter__vote-and-tools-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: start !important;
+  justify-content: space-between !important;
+}
+
+.PostFooter.m-redesign .PostFooter__votingBox {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+  max-width: unset !important;
+  width: 100% !important;
+  height: 40px !important;
+  margin-bottom: 16px !important;
+  border: 2px solid #efefed !important;
+  border-radius: 999px !important;
+}
+
+.PostFooter.m-redesign svg {
+  flex: 0 0 30px !important;
+  height: 30px !important;
+  width: 30px !important;
+}
+
+.PostFooter.m-redesign .PostFooter__comments-link {
+  position: relative !important;
+  display: flex !important;
+  align-items: start !important;
+  max-width: unset !important;
+  width: auto !important;
+  height: 40px !important;
+  margin-left: auto !important;
+  margin-right: 6px !important;
+  padding: 0 !important;
+  border: unset !important;
+  font-size: 12px !important;
+}
+
+.PostFooter.m-redesign .PostFooter__comments-link > svg {
+  position: absolute !important;
+  margin-right: 0 !important;
+}
+
+.PostFooter.m-redesign .PostFooter__share {
+  margin-left: 0 !important;
+  margin-top: -6px !important;
+  border: unset !important;
+}
+
+.PostFooter.m-redesign .PostFooter__award-button, .PostFooter.m-redesign .PostFooter__award-wrapper {
+  border: unset !important;
+}
+
+.Post.m-redesign .Post__thumbnailAndTitle {
+  flex-direction: column !important;
+}
+.PostContent.size-compact,
+.PostContent.size-compact .PostContent__image-link,
+.PostContent.size-compact .PostContent__image-wrapper,
+.PostContent.size-compact .PostContent__text-wrapper {
+  width: 100% !important;
+  height: 0 !important;
+  padding-bottom: 100% !important;
+}
+
+.Post.m-redesign .Post__thumbnailAndTitle .PostHeader__post-title-line {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.Post.m-redesign .Post__thumbnailAndTitle .PostContent {
+  margin: 0 !important;
+  width: 100% !important;
+}
