@@ -3,6 +3,7 @@ import { WebView, WebViewMessageEvent, WebViewNavigation } from "react-native-we
 import { StyleSheet, View } from "react-native"
 
 import { handleNavigation } from "../urlHandler"
+import { handleLogin } from "../accountHandler"
 
 import ReddiSteddiCore from "../../webPlugins/ReddiSteddiCore.raw.js"
 import CoreStyles from "../../webPlugins/CoreStyles.raw.css"
@@ -44,8 +45,12 @@ export default function Webview() {
 
   const onMessage = (event : WebViewMessageEvent) : void => {
     const msg = event.nativeEvent.data
+    console.log(msg)
     if (msg == "INJECTION_FINISHED_LOADING") {
       injecionFinishedLoadingHandler()
+    } else if (msg.startsWith("USER_LOGIN")) {
+      const username = msg.split("::")[1]
+      handleLogin(username)
     } else {
       console.log(msg)
     }
@@ -85,7 +90,7 @@ export default function Webview() {
         <WebView
           ref={mainWebView}
           style={styles.container}
-          source={{ uri: "https://reddit.com" }}
+          source={{ uri: "https://reddit.com/login/" }}
           onMessage={onMessage}
           onLoad={onLoad}
           onNavigationStateChange={
