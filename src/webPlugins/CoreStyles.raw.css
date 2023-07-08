@@ -9,6 +9,7 @@ shreddit-experience-tree {
 body {
   overflow: scroll !important;
   pointer-events: auto !important;
+  position: inherit !important;
 }
 
 .PostFooter.m-redesign .PostFooter__vote-and-tools-wrapper {
