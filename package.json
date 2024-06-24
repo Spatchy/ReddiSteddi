@@ -4,7 +4,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "npm run copyToBuild && cd .build_scripts && node transpileStrings && cd .. && cd build && npm install && expo start --clear",
-    "copyToBuild": "mkdir build && npm run copyToBuildNix || npm run copyToBuildWin",
+    "copyToBuild": "rm -rf build && mkdir build && npm run copyToBuildNix || npm run copyToBuildWin",
     "copyToBuildNix": "rsync -a --exclude='build' --exclude='node_modules' --exclude='.build_scripts' --exclude='.git' ./ build/",
     "copyToBuildWin": "robocopy .\\ build /E /XD build /XD node_modules /XD .build_scripts /XD .git || (if %errorlevel% lss 8 exit 0 else exit %errorlevel%)",
     "lint": "eslint .",
@@ -13,16 +13,16 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "~48.0.18",
-    "expo-status-bar": "~1.4.4",
-    "react": "18.2.0",
-    "react-native": "0.71.8",
-    "react-native-svg": "13.4.0",
+    "expo": "^51.0.14",
+    "expo-status-bar": "^1.12.1",
+    "react": "^18.2.0",
+    "react-native": "^0.74.2",
+    "react-native-svg": "^15.2.0",
     "react-native-url-polyfill": "^1.3.0",
-    "react-native-webview": "11.26.0"
+    "react-native-webview": "^13.8.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
+    "@babel/core": "^7.24.7",
     "@types/react-native": "^0.72.2",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",
@@ -31,7 +31,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "js-string-escape": "^1.0.1",
     "prettier": "^2.8.8",
-    "typescript": "^5.1.3"
+    "typescript": "^5.3.3"
   },
   "private": true
 }

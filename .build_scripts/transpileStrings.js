@@ -20,8 +20,13 @@ const traverseDirectory = (directoryPath) => {
       let fileContent = fs.readFileSync(filePath, "utf8")
       const templateContent = fs.readFileSync(filename.endsWith(".raw.js") ? templatePath : cssTemplatePath, "utf8")
       fileContent = jsStringEscape(fileContent)
-      const modifiedContent = templateContent.replace("{{{STRINGIFIED_FILE_CONTENT}}}", fileContent)
-      fs.writeFileSync(filePath.replace(".raw.css", ".raw.css.js"), modifiedContent, "utf8")
+      const modifiedContent = templateContent
+        .replace("{{{STRINGIFIED_FILE_CONTENT}}}", fileContent)
+        .replace("{{{STRINGIFIED_FILE_NAME}}}", filename)
+        fs.writeFileSync(filePath.replace(".raw.css", ".raw.css.js"), modifiedContent, "utf8")
+        if (filename.endsWith(".raw.css")) {
+          fs.rmSync(filePath)
+        }
     }
   })
 }
