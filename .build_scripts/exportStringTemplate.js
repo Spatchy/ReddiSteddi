@@ -1,1 +1,1 @@
-export default "{{{STRINGIFIED_FILE_CONTENT}}}\r\nwindow.ReactNativeWebView.postMessage(\"INJECTION_FINISHED_LOADING\")"
+export default "{{{STRINGIFIED_FILE_CONTENT}}}\r\nwindow.ReactNativeWebView.postMessage(\"{{{STRINGIFIED_FILE_NAME}}}_INJECTION_FINISHED_LOADING\")"

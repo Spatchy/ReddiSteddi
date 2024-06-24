@@ -33,11 +33,13 @@ export default function Webview() {
 
   const toInject = [
     ReddiSteddiCore,
-    CoreStyles
+    // CoreStyles
   ]
 
   const onLoad = () : void => {
-    if (process.env.REDDISTEDDI_DEBUG) injectJavaScript(debugging)
+    if (process.env.EXPO_PUBLIC_REDDISTEDDI_DEBUG) {
+      injectJavaScript(debugging)
+    }
     toInject.forEach((script) => {
       injectJavaScript(script)
     })
@@ -46,7 +48,7 @@ export default function Webview() {
   const onMessage = (event : WebViewMessageEvent) : void => {
     const msg = event.nativeEvent.data
     console.log(msg)
-    if (msg == "INJECTION_FINISHED_LOADING") {
+    if (msg.endsWith("INJECTION_FINISHED_LOADING")) {
       injecionFinishedLoadingHandler()
     } else if (msg.startsWith("USER_LOGIN")) {
       const username = msg.split("::")[1]
@@ -82,10 +84,11 @@ export default function Webview() {
 
   return (
     <>
-      {
+      {/* {
         isPluginLoadingComplete ? <></> : <LoadingAnimation />
-      }
+      } */}
 
+      
       <View style={styles.outer}>
         <WebView
           ref={mainWebView}
