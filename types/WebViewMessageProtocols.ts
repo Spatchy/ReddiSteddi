@@ -1,0 +1,4 @@
+export enum WebviewMessageProtocols{
+  INJECTION_FINISHED_LOADING = "INJECTION_FINISHED_LOADING",
+  USER_LOGIN = "USER_LOGIN"
+}

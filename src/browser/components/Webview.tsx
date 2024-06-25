@@ -2,17 +2,23 @@ import React, { useEffect, useRef, useState } from "react"
 import { WebView, WebViewMessageEvent, WebViewNavigation } from "react-native-webview"
 import { StyleSheet, View } from "react-native"
 
-import { handleNavigation } from "../urlHandler"
+import { handleNavigation } from "../../UrlHandler/urlHandler"
 import { handleLogin } from "../accountHandler"
 
-import ReddiSteddiCore from "../../webPlugins/ReddiSteddiCore.raw.js"
-import CoreStyles from "../../webPlugins/CoreStyles.raw.css"
 import LoadingAnimation from "../../LoadingSpinner/components/LoadingAnimation"
+import { WebViewMessageParser } from "../../WebViewMessageParser/WebviewMessageParser"
+import { WebViewPlugin } from "../../../types/WebViewPlugin"
+import { WebViewPluginInjector } from "../../WebViewPluginInjector/WebViewPluginInjector"
+import { ProtocolHandlerMap } from "../../WebViewMessageParser/ProtocolHandlerMap"
+import { WebviewMessageProtocols } from "../../../types/WebViewMessageProtocols"
 
 export default function Webview() {
   const mainWebView = useRef<WebView>(null);
-  const [loadedPluginsCounter, setLoadedPluginsCounter] = useState<number>(0)
+  const [numOfPlugins, setNumOfPlugins] = useState<number>(0)
+  const [loadedPlugins, setLoadedPlugins] = useState<WebViewPlugin[]>([])
   const [isPluginLoadingComplete, setIsPluginLoadingComplete] = useState<boolean>(false)
+  const [currentUrl, setCurrentUrl] = useState<string>("")
+  const webViewPluginInjector = new WebViewPluginInjector(mainWebView)
 
   const debugging = `
   const consoleLog = (type, log) => window.ReactNativeWebView.postMessage(JSON.stringify({'type': 'Console', 'data': {'type': type, 'log': log}}));
@@ -31,36 +37,22 @@ export default function Webview() {
     }
   }
 
-  const toInject = [
-    ReddiSteddiCore,
-    // CoreStyles
-  ]
-
   const onLoad = () : void => {
     if (process.env.EXPO_PUBLIC_REDDISTEDDI_DEBUG) {
       injectJavaScript(debugging)
     }
-    toInject.forEach((script) => {
-      injectJavaScript(script)
-    })
+    webViewPluginInjector.initInject(currentUrl, setNumOfPlugins, setLoadedPlugins)
   }
 
-  const onMessage = (event : WebViewMessageEvent) : void => {
-    const msg = event.nativeEvent.data
-    console.log(msg)
-    if (msg.endsWith("INJECTION_FINISHED_LOADING")) {
-      injecionFinishedLoadingHandler()
-    } else if (msg.startsWith("USER_LOGIN")) {
-      const username = msg.split("::")[1]
-      handleLogin(username)
-    } else {
-      console.log(msg)
-    }
+  const onMessage = (event : WebViewMessageEvent): void => {
+    const msg = WebViewMessageParser(event.nativeEvent.data)
+    const protocol = msg.protocol as WebviewMessageProtocols
+    ProtocolHandlerMap[protocol]
   }
 
-  const injecionFinishedLoadingHandler = () => {
-    setLoadedPluginsCounter(loadedPluginsCounter + 1)
-  }
+  useEffect(() => {
+    setIsPluginLoadingComplete(loadedPlugins.length === numOfPlugins)
+  }, [loadedPlugins])
 
   const styles = StyleSheet.create({
     container: {
@@ -73,14 +65,6 @@ export default function Webview() {
       height: isPluginLoadingComplete ? "100%" : 0,
     }
   })
-
-  useEffect(() => {
-    if (loadedPluginsCounter == toInject.length) {
-      setIsPluginLoadingComplete(true)
-    } else {
-      setIsPluginLoadingComplete(false)
-    }
-  }, [loadedPluginsCounter])
 
   return (
     <>
@@ -98,11 +82,12 @@ export default function Webview() {
           onLoad={onLoad}
           onNavigationStateChange={
             (event : WebViewNavigation) => {
+              setCurrentUrl(event.url)
               handleNavigation(
                 mainWebView,
                 event.url,
                 () => {
-                  setLoadedPluginsCounter(0)
+                  setLoadedPlugins([])
                 }
               )
             }
